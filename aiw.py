@@ -6,23 +6,44 @@ from matplotlib.pyplot import *
 import seaborn as sns
 
 df = pd.read_csv('stardataset.csv')
-types = ['0 Brown Dwarf', '1 Red Dwarf', '2 White Dwarf', '3 Main Sequence', '4 Supergiant', '5 Hypergiant']
-a = df['Star type']
 #ogólne dane statystyczne dot zmiennych (średnie, centyle itd)
 print(df.describe())
 
 #temperatura vs. wielkość
-x = df["Temperature (K)"]
-y = df["Absolute magnitude(Mv)"]
-plt.ylabel("Star type")
+fig = plt.figure()
+ax = fig.add_subplot(111)
+brawn_dwarfs = df.loc[df['Star type'] == 0]
+x0 = brawn_dwarfs["Temperature (K)"]
+y0 = brawn_dwarfs["Absolute magnitude(Mv)"]
+red_dwarfs = df.loc[df['Star type'] == 1]
+x1 = red_dwarfs["Temperature (K)"]
+y1 = red_dwarfs["Absolute magnitude(Mv)"]
+white_dwarfs = df.loc[df['Star type'] == 2]
+x2 = white_dwarfs["Temperature (K)"]
+y2 = white_dwarfs["Absolute magnitude(Mv)"]
+main_sequences = df.loc[df['Star type'] == 3]
+x3 = main_sequences["Temperature (K)"]
+y3 = main_sequences["Absolute magnitude(Mv)"]
+supergiants = df.loc[df['Star type'] == 4]
+x4 = supergiants["Temperature (K)"]
+y4 = supergiants["Absolute magnitude(Mv)"]
+hypergiants = df.loc[df['Star type'] == 5]
+x5 = hypergiants["Temperature (K)"]
+y5 = hypergiants["Absolute magnitude(Mv)"]
+
+ax.scatter(x0, y0, c = 'orange', label = 'Brawn Dwarfs')
+ax.scatter(x1, y1, c = 'green', label = 'Red Dwarfs')
+ax.scatter(x2, y2, c = 'pink', label = 'White Dwarfs')
+ax.scatter(x3, y3, c = 'purple', label = 'Main Sequences')
+ax.scatter(x4, y4, c = 'grey', label = 'Supergiants')
+ax.scatter(x5, y5, c = 'yellow', label = 'Hypergiants')
+
+plt.legend()
+plt.ylabel("Temperature")
 plt.xlabel("Magnitude")
 plt.title("H-R Diagram of Total Stars ")
-plt.legend((a,b,c,d,e,f),('Brown Dwarf','Red Dwarf','White Dwarf','Main Sequence','Supergiant','Hypergiant'))
-plt.scatter(x, y, color = 'grey')
 plt.show()
 
-
-'''
 #temperatura vs. typ gwiazd
 y = df["Temperature (K)"]
 x = df["Star type"]
@@ -40,18 +61,11 @@ plt.scatter(x, y, color = 'orange')
 plt.show()
 
 #jaką jasność przyjmuje dany typ gwiazd
-fig = plt.figure()
-ax = plt.subplot(111)
 y = df["Luminosity(L/Lo)"]
 x = df["Star type"]
 plt.xlabel("Star type")
 plt.ylabel("Luminosity")
-box = ax.get_position()
-ax.set_position([box.x0, box.y0 + box.height * 0.1,
-                 box.width, box.height * 0.9])
-ax.scatter(x, y, color = 'purple', label=types)
-ax.legend(loc = "upper center", bbox_to_anchor = (0.5, -0.05), fancybox = True, shadow = True)
-ax.grid(True)
+plt.scatter(x, y, color = 'orange')
 plt.show()
 
 #sprawdzam, czy są jakieś braki w danych
@@ -70,4 +84,3 @@ sns.pairplot(data=df, diag_kind="kde", markers="+",
                   plot_kws=dict(s=50, edgecolor="g", linewidth=1),
                   diag_kws=dict(shade=True))
 plt.show()
-'''
