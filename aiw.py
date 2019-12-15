@@ -11,6 +11,16 @@ print(df.describe())
 #df.describe().to_csv("ogólne statystyki.csv")
 
 
+columns = {'Temperature': df['Temperature (K)'].mean(), 'Luminosity': df['Luminosity(L/Lo)'].mean()}
+print(pd.crosstab(df['Star type'], columns=['Temperature', 'Luminosity']).stack())
+
+#porządkowanie kolorków
+blue_white = df.rename({'Bleu-White':'Blue White', 'Blue white':'Blue White', 'Blue-white':'Blue White'}, axis=1)
+white = df.rename({'white':'White', 'Whitish':'White'})
+yellow = df.rename({'yellow':'Yellow', 'yellowish':'Yellow'})
+white_yellow = df.rename({'White-Yellow': 'White Yellow', 'yellow-white':'White Yellow', 'Yellowish White':'White Yellow'})
+print(pd.crosstab(df['Star color'], df['Star type']).stack())
+
 
 def wykres_wyodrebnione_typy_gwiazd(zmienna1, zmienna2):
     fig = plt.figure()
