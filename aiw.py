@@ -6,6 +6,7 @@ from matplotlib.pyplot import *
 import seaborn as sns
 
 df = pd.read_csv('stardataset.csv')
+df1 = df.drop('Star type', axis=1)
 #ogólne dane statystyczne dot zmiennych (średnie, centyle itd)
 print(round(df.describe(), 2))
 #df.describe().to_csv("ogólne statystyki.csv")
@@ -14,11 +15,12 @@ print(round(df.describe(), 2))
 print(round(df.groupby('Star type').mean(),3))
 
 #porządkowanie kolorków
-blue_white = df.rename({'Bleu-White':'Blue White', 'Blue white':'Blue White', 'Blue-white':'Blue White'}, axis=1)
-white = df.rename({'white':'White', 'Whitish':'White'})
-yellow = df.rename({'yellow':'Yellow', 'yellowish':'Yellow'})
-white_yellow = df.rename({'White-Yellow': 'White Yellow', 'yellow-white':'White Yellow', 'Yellowish White':'White Yellow'})
-print(pd.crosstab(df['Star color'], df['Star type']).stack())
+df.replace(['yellow-white', 'Yellowish White', 'White-Yellow'], 'White Yellow', inplace=True)
+df.replace(['yellowish'], 'Yellowish', inplace=True)
+df.replace(['white', 'Whitish'], 'White', inplace=True)
+df.replace(['Blue-White', 'Blue-white', 'Blue White'], 'Blue White', inplace=True)
+df.replace(['yellowish'], 'Yellowish', inplace=True)
+print(pd.crosstab(df['Star type'], df['Star color']).stack())
 
 
 def wykres_wyodrebnione_typy_gwiazd(zmienna1, zmienna2):
