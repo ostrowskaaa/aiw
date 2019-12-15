@@ -7,10 +7,11 @@ import seaborn as sns
 
 df = pd.read_csv('stardataset.csv')
 #ogólne dane statystyczne dot zmiennych (średnie, centyle itd)
-print(df.describe())
+print(round(df.describe(), 2))
+#df.describe().to_csv("ogólne statystyki.csv")
 
 # średnie wartości dla danego typu gwiazd
-print(df.groupby('Star type').mean())
+print(round(df.groupby('Star type').mean(),3))
 
 #porządkowanie kolorków
 blue_white = df.rename({'Bleu-White':'Blue White', 'Blue white':'Blue White', 'Blue-white':'Blue White'}, axis=1)
