@@ -8,11 +8,9 @@ import seaborn as sns
 df = pd.read_csv('stardataset.csv')
 #ogólne dane statystyczne dot zmiennych (średnie, centyle itd)
 print(df.describe())
-#df.describe().to_csv("ogólne statystyki.csv")
 
-
-columns = {'Temperature': df['Temperature (K)'].mean(), 'Luminosity': df['Luminosity(L/Lo)'].mean()}
-print(pd.crosstab(df['Star type'], columns=['Temperature', 'Luminosity']).stack())
+# średnie wartości dla danego typu gwiazd
+print(df.groupby('Star type').mean())
 
 #porządkowanie kolorków
 blue_white = df.rename({'Bleu-White':'Blue White', 'Blue white':'Blue White', 'Blue-white':'Blue White'}, axis=1)
