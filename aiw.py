@@ -7,12 +7,22 @@ import seaborn as sns
 
 df = pd.read_csv('stardataset.csv')
 df1 = df.drop('Star type', axis=1)
+
+####-------------TABELE---------------####
+
+#sprawdzam, czy są jakieś braki w danych
+print(df.isnull().values.any())
+#korelacja
+print(df.corr())
+df.corr().to_csv('korelacje.csv')
+
 #ogólne dane statystyczne dot zmiennych (średnie, centyle itd)
 print(round(df.describe(), 2))
-#df.describe().to_csv("ogólne statystyki.csv")
+#round(df.describe(),2).to_csv("ogólne statystyki.csv")
 
 # średnie wartości dla danego typu gwiazd
 print(round(df.groupby('Star type').mean(),3))
+#round(df.groupby('Star type').mean(),3).to_csv("srednie_wartosci_typy_gwiazd.csv")
 
 #porządkowanie kolorków
 df.replace(['yellow-white', 'Yellowish White', 'White-Yellow'], 'White Yellow', inplace=True)
@@ -21,7 +31,21 @@ df.replace(['white', 'Whitish'], 'White', inplace=True)
 df.replace(['Blue-White', 'Blue-white', 'Blue White'], 'Blue White', inplace=True)
 df.replace(['yellowish'], 'Yellowish', inplace=True)
 print(pd.crosstab(df['Star type'], df['Star color']).stack())
+#pd.crosstab(df['Star type'], df['Star color']).stack().to_csv("typ_vs_kolor.csv")
 
+####-----------WYKRESY-------------####
+#wizualizacja korelacji
+f, ax = plt.subplots(figsize=(10, 8))
+corr = df.corr()
+sns.heatmap(corr, mask=np.zeros_like(corr, dtype=np.bool), cmap=sns.diverging_palette(220, 10, as_cmap=True),
+            square=True, ax=ax)
+plt.show()
+#każdy z każdym
+sns.set(style = "ticks", color_codes=True)
+sns.pairplot(data=df, diag_kind="kde", markers="+",
+                  plot_kws=dict(s=50, edgecolor="g", linewidth=1),
+                  diag_kws=dict(shade=True))
+plt.show()
 
 def wykres_wyodrebnione_typy_gwiazd(zmienna1, zmienna2):
     fig = plt.figure()
@@ -109,21 +133,4 @@ y = df["Luminosity(L/Lo)"]
 plt.xlabel("Star type")
 plt.ylabel("Luminosity")
 plt.scatter(x, y, color = 'orange')
-plt.show()
-
-#sprawdzam, czy są jakieś braki w danych
-print(df.isnull().values.any())
-#korelacja
-print(df.corr())
-#wizualizacja korelacji
-f, ax = plt.subplots(figsize=(10, 8))
-corr = df.corr()
-sns.heatmap(corr, mask=np.zeros_like(corr, dtype=np.bool), cmap=sns.diverging_palette(220, 10, as_cmap=True),
-            square=True, ax=ax)
-plt.show()
-#każdy z każdym
-sns.set(style = "ticks", color_codes=True)
-sns.pairplot(data=df, diag_kind="kde", markers="+",
-                  plot_kws=dict(s=50, edgecolor="g", linewidth=1),
-                  diag_kws=dict(shade=True))
 plt.show()
