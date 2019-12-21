@@ -14,14 +14,17 @@ df1 = df.drop('Star type', axis=1)
 print(df.isnull().values.any())
 #korelacja
 print(df.corr())
-df.corr().to_csv('korelacje.csv')
+#zapis tabeli do csv
+#df.corr().to_csv('korelacje.csv')
 
 #ogólne dane statystyczne dot zmiennych (średnie, centyle itd)
 print(round(df.describe(), 2))
+#zapis tabeli do csv
 #round(df.describe(),2).to_csv("ogólne statystyki.csv")
 
 # średnie wartości dla danego typu gwiazd
 print(round(df.groupby('Star type').mean(),3))
+#zapis tabeli do csv
 #round(df.groupby('Star type').mean(),3).to_csv("srednie_wartosci_typy_gwiazd.csv")
 
 #porządkowanie kolorków
@@ -31,6 +34,7 @@ df.replace(['white', 'Whitish'], 'White', inplace=True)
 df.replace(['Blue-White', 'Blue-white', 'Blue White'], 'Blue White', inplace=True)
 df.replace(['yellowish'], 'Yellowish', inplace=True)
 print(pd.crosstab(df['Star type'], df['Star color']).stack())
+#zapis tabeli do csv
 #pd.crosstab(df['Star type'], df['Star color']).stack().to_csv("typ_vs_kolor.csv")
 
 ####-----------WYKRESY-------------####
