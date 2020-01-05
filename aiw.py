@@ -6,41 +6,41 @@ from matplotlib.pyplot import *
 import seaborn as sns
 
 df = pd.read_csv('stardataset.csv')
-df1 = df.drop('Star type', axis=1)
+df1 = df.drop(['Star type'], axis=1)
 
 ####-------------TABELE---------------####
 
 #sprawdzam, czy są jakieś braki w danych
 print(df.isnull().values.any())
 #korelacja
-print(df.corr())
-#zapis tabeli do csv
-#df.corr().to_csv('korelacje.csv')
+print(round(df1.corr(), 3))
+#round(df1.corr(), 3).to_csv('korelacje.csv')
 
 #ogólne dane statystyczne dot zmiennych (średnie, centyle itd)
-print(round(df.describe(), 2))
-#zapis tabeli do csv
-#round(df.describe(),2).to_csv("ogólne statystyki.csv")
+print(round(df.describe(), 3))
+#round(df.describe(),3).to_csv("ogólne statystyki.csv")
 
 # średnie wartości dla danego typu gwiazd
 print(round(df.groupby('Star type').mean(),3))
-#zapis tabeli do csv
 #round(df.groupby('Star type').mean(),3).to_csv("srednie_wartosci_typy_gwiazd.csv")
 
-#porządkowanie kolorków
+#porządkowanie kolorów
 df.replace(['yellow-white', 'Yellowish White', 'White-Yellow'], 'White Yellow', inplace=True)
 df.replace(['yellowish'], 'Yellowish', inplace=True)
 df.replace(['white', 'Whitish'], 'White', inplace=True)
-df.replace(['Blue-White', 'Blue-white', 'Blue White'], 'Blue White', inplace=True)
+df.replace(['Blue-White', 'Blue-white', 'Blue white', 'Blue white '], 'Blue White', inplace=True)
 df.replace(['yellowish'], 'Yellowish', inplace=True)
-print(pd.crosstab(df['Star type'], df['Star color']).stack())
-#zapis tabeli do csv
-#pd.crosstab(df['Star type'], df['Star color']).stack().to_csv("typ_vs_kolor.csv")
+print(pd.crosstab(df['Star color'], df['Star type']))
+print(df.groupby('Star color').agg({'Star type': lambda x: list(set(x))}).reset_index())
+#pd.crosstab(df['Star color'], df['Star type']).to_csv("star_color_vs_star_type.csv")
+sns.heatmap(pd.crosstab(df['Star color'], df['Star type']), cmap=sns.diverging_palette(220, 10, as_cmap=True), annot=True, cbar=False)
+plt.show()
+
 
 ####-----------WYKRESY-------------####
 #wizualizacja korelacji
 f, ax = plt.subplots(figsize=(10, 8))
-corr = df.corr()
+corr = df1.corr()
 sns.heatmap(corr, mask=np.zeros_like(corr, dtype=np.bool), cmap=sns.diverging_palette(220, 10, as_cmap=True),
             square=True, ax=ax)
 plt.show()
