@@ -29,7 +29,6 @@ df.replace(['yellow-white', 'Yellowish White', 'White-Yellow'], 'White Yellow', 
 df.replace(['yellowish'], 'Yellowish', inplace=True)
 df.replace(['white', 'Whitish'], 'White', inplace=True)
 df.replace(['Blue-White', 'Blue-white', 'Blue white', 'Blue white '], 'Blue White', inplace=True)
-df.replace(['yellowish'], 'Yellowish', inplace=True)
 print(pd.crosstab(df['Star color'], df['Star type']))
 print(df.groupby('Star color').agg({'Star type': lambda x: list(set(x))}).reset_index())
 #pd.crosstab(df['Star color'], df['Star type']).to_csv("star_color_vs_star_type.csv")
