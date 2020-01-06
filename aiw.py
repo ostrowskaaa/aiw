@@ -37,19 +37,7 @@ sns.heatmap(pd.crosstab(df['Star color'], df['Star type']), cmap=sns.diverging_p
 plt.show()
 
 
-####-----------WYKRESY-------------####
-#wizualizacja korelacji
-f, ax = plt.subplots(figsize=(10, 8))
-corr = df1.corr()
-sns.heatmap(corr, mask=np.zeros_like(corr, dtype=np.bool), cmap=sns.diverging_palette(220, 10, as_cmap=True),
-            square=True, ax=ax)
-plt.show()
-#każdy z każdym
-sns.set(style = "ticks", color_codes=True)
-sns.pairplot(data=df, diag_kind="kde", markers="+",
-                  plot_kws=dict(s=50, edgecolor="g", linewidth=1),
-                  diag_kws=dict(shade=True))
-plt.show()
+####-----------WYKRESY-------------###
 
 def wykres_wyodrebnione_typy_gwiazd(zmienna1, zmienna2):
     fig = plt.figure()
@@ -99,20 +87,6 @@ wykres_wyodrebnione_typy_gwiazd("Temperature (K)", "Absolute magnitude(Mv)")
 plt.legend()
 plt.xlabel("Temperature")
 plt.ylabel("Magnitude")
-plt.show()
-
-#radius vs. kuminosity
-x = df["Radius(R/Ro)"]
-y = df["Luminosity(L/Lo)"]
-plt.xlabel("Radius")
-plt.ylabel("Luminosity")
-plt.scatter(x, y, color = 'green')
-plt.show()
-####
-wykres_wyodrebnione_typy_gwiazd("Radius(R/Ro)", "Luminosity(L/Lo)")
-plt.legend()
-plt.xlabel("Temperature")
-plt.ylabel("Radius")
 plt.show()
 
 #temperatura vs. typ gwiazd
